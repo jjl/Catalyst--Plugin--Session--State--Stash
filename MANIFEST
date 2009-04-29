@@ -1,0 +1,12 @@
+Build.PL
+Changes
+MANIFEST
+README
+lib/Catalyst/Plugin/Session/State/Stash.pm
+t/01-use.t
+t/02-pod.t
+t/03-pod-coverage.t
+t/04-basic.t
+t/05-live.t
+Makefile.PL
+META.yml

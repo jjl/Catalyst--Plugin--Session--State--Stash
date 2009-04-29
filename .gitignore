@@ -1,0 +1,11 @@
+*~
+.DS_Store
+._*
+\#*\#
+Build
+blib
+pm_to_blib
+*.tar.*
+_build
+Makefile
+Makefile.PL

@@ -1,0 +1,19 @@
+---
+name: Catalyst-Plugin-Session-State-Stash
+version: 0.10
+author:
+  - "James Laver <perl -e 'print sprintf(qw/%s@%s.com cpan jameslaver/);'>"
+abstract: Maintain session IDs using the stash
+license: perl
+resources:
+  license: ~
+build_requires:
+  Test::More: 0
+provides:
+  Catalyst::Plugin::Session::State::Stash:
+    file: lib/Catalyst/Plugin/Session/State/Stash.pm
+    version: 0.10
+generated_by: Module::Build version 0.31012
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2
