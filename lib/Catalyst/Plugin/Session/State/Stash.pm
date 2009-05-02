@@ -5,26 +5,30 @@ use strict;
 use warnings;
 use MRO::Compat;
 
+use Data::Dumper qw/Dumper/;
 our $VERSION = "0.10";
 
 BEGIN { __PACKAGE__->mk_accessors(qw/_deleted_session_id _prepared/) }
 
-sub _session_stash_key {
+sub _stash_key_components {
     my ($c) = @_;
-
-    $c->config->{session}->{stash_key};
+    return ($c->config->{session}->{stash_delim}) ?
+        split $c->config->{session}->{stash_delim}, $c->config->{session}->{stash_key} :
+        $c->config->{session}->{stash_key};
 }
 
 sub _get_session {
     my ($c) = @_;
-    
-    $c->stash->{$c->_session_stash_key};
+    # This turns the list of path components into a nested tree of hashrefs for obtaining info/storing in: 123/456 = {123}->{456}
+    my $ref = $c->stash;
+    $ref = ($ref->{$_} ||= {}) foreach $c->_stash_key_components;
+    $ref;
 }
 
 sub _set_session {
     my ( $c,$key,$value) = @_;
     
-    $c->stash->{$c->_session_stash_key}->{$key} = $value;
+    $c->_get_session->{$key} = $value;
 }
 
 sub setup_session {
@@ -75,7 +79,8 @@ sub set_session_expires {
 sub delete_session_id {
     my ($c, $sid ) = @_;
     $c->_deleted_session_id(1);
-    undef $c->{stash}->{$c->_session_stash_key};
+    #Empty the tip
+    %{$c->_get_session} = ();
     $c->maybe::next::method($sid);
 }
 
@@ -149,6 +154,11 @@ Defaults the C<stash_key> parameter to C<_session>.
 
 The name of the hash key to use. Defaults to C<_session>.
 
+=item stash_delim
+
+If present, splits stash_key at this character to nest. E.g. delim of '/'
+and key of '123/456' will store it as $c->stash->{123}->{456}
+
 =item expires
     
 How long the session should last in seconds.
@@ -189,6 +199,8 @@ James Laver E<lt>perl -e 'printf qw/%s@%s.com cpan jameslaver/'E<gt>
 This module is derived from L<Catalyst::Plugin::Session::State::Cookie> code.
 
 Thanks to anyone who wrote code for that.
+
+Thanks to Kent Fredric for a patch for nested keys
 
 =head1 COPYRIGHT
 
