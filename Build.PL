@@ -9,6 +9,14 @@ my $builder = Module::Build->new(
     dist_version_from   => 'lib/Catalyst/Plugin/Session/State/Stash.pm',
     build_requires => {
         'Test::More' => 0,
+        'Test::MockObject' => 0,
+        'Test::WWW::Mechanize::Catalyst' => 0,
+        'URI::Escape' => 0,
+    },
+    requires => {
+        'MRO::Compat' => 0,
+        'Catalyst::Plugin::Session::State' => 0,
+        'Class::Accessor::Fast' => 0,
     },
     add_to_cleanup      => [ 'Catalyst-Plugin-Session-State-Stash-*' ],
     create_makefile_pl => 'traditional',

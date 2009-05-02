@@ -1,11 +1,12 @@
 package Catalyst::Plugin::Session::State::Stash;
 use base qw/Catalyst::Plugin::Session::State Class::Accessor::Fast/;
 
+#Need to look up which version of perl is required.
+#use 5.008;
 use strict;
 use warnings;
 use MRO::Compat;
 
-use Data::Dumper qw/Dumper/;
 our $VERSION = "0.10";
 
 BEGIN { __PACKAGE__->mk_accessors(qw/_deleted_session_id _prepared/) }
