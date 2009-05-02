@@ -1,11 +1,17 @@
+# These are temp files
 *~
-.DS_Store
-._*
 \#*\#
-Build
+# OSX things
+._*
+.DS_Store
+# These should never be pushed into the tree
 blib
 pm_to_blib
-*.tar.*
-_build
 Makefile
 Makefile.PL
+META.yml
+*.orig
+Build
+*.tar.*
+_build
+*.patch
