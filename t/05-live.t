@@ -58,6 +58,7 @@ BEGIN {
             $c->res->body('PASS');
         } else {
             #In the failure case, provide debug info
+            $id3 ||= '';
             $c->res->body("FAIL: Matching ids, $id3");
         }
     }
