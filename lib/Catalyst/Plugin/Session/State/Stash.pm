@@ -13,9 +13,10 @@ BEGIN { __PACKAGE__->mk_accessors(qw/_deleted_session_id _prepared/) }
 
 sub _stash_key_components {
     my ($c) = @_;
-    return ($c->config->{session}->{stash_delim}) ?
-        split $c->config->{session}->{stash_delim}, $c->config->{session}->{stash_key} :
-        $c->config->{session}->{stash_key};
+    my $config = $c->config->{'Plugin::Session'} || $c->config->{'session'};
+    return ($config->{stash_delim}) ?
+        split $config->{stash_delim}, $config->{stash_key} :
+        $config->{stash_key};
 }
 
 sub _get_session {
@@ -35,7 +36,9 @@ sub _set_session {
 sub setup_session {
     my $c = shift;
 
-    $c->config->{session}->{stash_key}
+    $c->config->{'Plugin::Session'} 
+        and return $c->config->{'Plugin::Session'}->{stash_key} |= '_session';
+    $c->config->{'session'}->{stash_key}
         ||= '_session';
 }
 
@@ -168,7 +171,7 @@ How long the session should last in seconds.
 
 For example, you could stick this in MyApp.pm:
 
-  __PACKAGE__->config( session => {
+  __PACKAGE__->config( 'Plugin::Session' => {
      stash_key  => 'session_id',
   });
 
