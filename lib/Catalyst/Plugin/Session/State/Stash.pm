@@ -35,7 +35,7 @@ sub _set_session {
 
 sub setup_session {
     my $c = shift;
-
+    $c->maybe::next::method(@_);
     $c->config->{'Plugin::Session'} 
         and return $c->config->{'Plugin::Session'}->{stash_key} |= '_session';
     $c->config->{'session'}->{stash_key}
